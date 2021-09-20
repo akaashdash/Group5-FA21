@@ -1,1 +1,2 @@
 Intializing directory
+BitBoard Structure: https://medium.com/@benjamin.botto/implementing-an-optimal-rubiks-cube-solver-using-korf-s-algorithm-bf750b332cf9

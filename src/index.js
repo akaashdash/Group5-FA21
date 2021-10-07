@@ -19,13 +19,13 @@ class Cube extends Component {
     var cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
     const light = new THREE.HemisphereLight( 0x0000FF, 0x0055FF, 1 );
-    
+
     scene.add(light);
 
     camera.position.z = 2;
     var animate = function () {
       requestAnimationFrame( animate );
-      cube.rotation.x += 0.01;
+      cube.rotation.x += 0.01;  // I think you'd put the on click and drag stuff here to move the cube around
       cube.rotation.y += 0.01;
       cube.rotation.z += 0.01;
       renderer.render( scene, camera );

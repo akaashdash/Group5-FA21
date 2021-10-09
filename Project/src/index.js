@@ -4,7 +4,39 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as THREE from 'three';
+import Cube from 'react-3d-cube'
 
+class MyCube extends Component {
+  render () {
+    return (
+      <div className = "render-cube">
+        <center>
+          <div style={{width: 300, height: 300}}>
+            <Cube size={300} index="front" >
+              <div style={{backgroundColor: 'red', width: '300px', height: '300px'}}> </div>
+              <div style={{backgroundColor: 'green', width: '300px', height: '300px'}}> </div>
+              <div style={{backgroundColor: 'orange', width: '300px', height: '300px'}}> </div>
+              <div style={{backgroundColor: 'blue', width: '300px', height: '300px'}}> </div> 
+              <div style={{backgroundColor: 'yellow', width: '300px', height: '300px'}}> </div>
+              <div style={{backgroundColor: 'white', width: '300px', height: '300px'}}> </div>
+            </Cube>
+          </div>
+        </center>
+      </div>
+    )
+  }
+}
+
+class Button extends Component {
+  render() {
+    return(
+      <h1 className="solve-button">SOLVE</h1>
+    );
+  }
+}
+
+
+/* 
 class Cube extends Component {
   render() {
     var scene = new THREE.Scene();
@@ -37,18 +69,21 @@ class Cube extends Component {
       <div />
     );
   }
-
+ */
  /*  render() {
     return (
       <div/>
     );
-  } */
+  }
 }
+*/
+
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    <Cube />
+    <MyCube />
+    <Button />
   </React.StrictMode>,
   document.getElementById('root')
 );

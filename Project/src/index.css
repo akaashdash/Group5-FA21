@@ -21,6 +21,7 @@ code {
 }
 
 .solve-button {
-  color: white;
+  color: rgb(61, 25, 25);
+  background-color: #1850c2;
   justify-content: center;
 }

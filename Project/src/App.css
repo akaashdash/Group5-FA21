@@ -1,8 +1,5 @@
 .App {
   text-align: center;
-  border: 40;
-  margin: 30;
-  padding: 100;
 }
 
 .App-header {
@@ -10,17 +7,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /*justify-content: center;*/
-  font-size: calc(10px + 2vmin);
+  font-size: 50px;
   color: white;
+  font-family: monospace;
 }
 
 .description {
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
+  font-family: monospace;
 }
 
 @keyframes App-logo-spin {

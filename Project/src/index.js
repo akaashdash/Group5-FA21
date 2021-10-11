@@ -30,7 +30,7 @@ class MyCube extends Component {
 class Button extends Component {
   render() {
     return(
-      <h1 className="solve-button">SOLVE</h1>
+      <button className="solve-button" onClick="startSolve()">SOLVE</button>
     );
   }
 }

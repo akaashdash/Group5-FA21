@@ -3,22 +3,94 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import * as THREE from 'three';
 import Cube from 'react-3d-cube'
 
+{/* Creates the Cube 
+    - for each color, we'll have a different class name so that we can change the color of the square
+    - use onClick to change the classname rather than changing the css value itself.
+
+    OR
+    - use onClick to change the actual style... 54 times * however many times the click the thing.
+
+
+    ----------------------
+    - to get the state of the cube, convert what python part has into something easier to use with the buttons in react.(ie. r1-r9, g1-g9)
+
+*/}
 class MyCube extends Component {
   render () {
     return (
       <div className = "render-cube">
         <center>
           <div style={{width: 300, height: 300}}>
+
             <Cube size={300} index="front" >
-              <div style={{backgroundColor: 'red', width: '300px', height: '300px'}}> </div>
-              <div style={{backgroundColor: 'green', width: '300px', height: '300px'}}> </div>
-              <div style={{backgroundColor: 'orange', width: '300px', height: '300px'}}> </div>
-              <div style={{backgroundColor: 'blue', width: '300px', height: '300px'}}> </div> 
-              <div style={{backgroundColor: 'yellow', width: '300px', height: '300px'}}> </div>
-              <div style={{backgroundColor: 'white', width: '300px', height: '300px'}}> </div>
+              <div style={{backgroundColor: 'white', width: '300px', height: '300px'}}> 
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+              </div>
+              <div style={{backgroundColor: 'blue', width: '300px', height: '300px'}}> 
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+              </div>
+              <div style={{backgroundColor: 'yellow', width: '300px', height: '300px'}}> 
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+              </div>
+              <div style={{backgroundColor: 'green', width: '300px', height: '300px'}}> 
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+              </div> 
+              <div style={{backgroundColor: 'orange', width: '300px', height: '300px'}}> 
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+              </div>
+              <div style={{backgroundColor: 'red', width: '300px', height: '300px'}}> 
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+                <button className="square"> </button>
+              </div>
             </Cube>
           </div>
         </center>
@@ -27,63 +99,51 @@ class MyCube extends Component {
   }
 }
 
-class Button extends Component {
+{/*Holds the solve button and the instructions to solve A cube*/}
+class SolveButton extends Component {
+
+  state = {
+    isHidden: false,
+  }
+
+  
+
   render() {
+
+    var solveClicked = e => {
+      console.log('solve button clicked');
+      this.setState({
+        isHidden: !this.state.isHidden
+      });
+    }
+    
+    const show = this.state.isHidden;
+
     return(
-      <button className="solve-button" onClick="startSolve()">SOLVE</button>
+      <div className="solve-container">
+        <button className="solve-button" onClick={solveClicked}>{show? "Hide Solution" : "Solve"} </button>
+        { 
+          show && (
+          <div className="solution"> 
+            <h1>Solution:</h1>
+            <p> 1. Solve White Face</p>
+            <p> 2. Solve Two Rows</p>
+            <p> 4. Solve top face</p>
+            <p> 5. Finish Cube</p>
+          </div>)
+        }
+      </div>
+        
     );
   }
 }
-
-
-/* 
-class Cube extends Component {
-  render() {
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    var renderer = new THREE.WebGL1Renderer();
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-
-    var geometry = new THREE.BoxGeometry(1, 1, 1);
-    var material = new THREE.MeshBasicMaterial({ color: 0x00DDFF });
-    var cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-    const light = new THREE.HemisphereLight( 0x0000FF, 0x0055FF, 1 );
-
-    scene.add(light);
-
-    camera.position.z = 2;
-    var animate = function () {
-      requestAnimationFrame( animate );
-      cube.rotation.x += 0.01;  // I think you'd put the on click and drag stuff here to move the cube around
-      cube.rotation.y += 0.01;
-      cube.rotation.z += 0.01;
-      renderer.render( scene, camera );
-    };
-    animate();
-
-    console.log("I'm here!")
-    return(
-      <div />
-    );
-  }
- */
- /*  render() {
-    return (
-      <div/>
-    );
-  }
-}
-*/
 
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
     <MyCube />
-    <Button />
+    <SolveButton />
   </React.StrictMode>,
   document.getElementById('root')
 );

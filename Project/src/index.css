@@ -14,14 +14,74 @@ code {
     monospace;
 }
 
+.square1 {
+  background-color: red;
+  width: 100px;
+  height: 100px
+}
+
 .render-cube {
   margin: 100px;
   justify-content: center;
 
 }
 
+.red-square {
+  background-color: red;
+  width: 100px;
+  height: 100px;
+}
+
+.blue-square {  
+  background-color: blue;
+  width: 100px;
+  height: 100px;
+}
+
+.white-square {
+  background-color: white;
+  width: 100px;
+  height: 100px;
+}
+
+.green-square {
+  background-color: green;
+  width: 100px;
+  height: 100px;
+}
+
+.yellow-square {
+  background-color: yellow;
+  width: 100px;
+  height: 100px;
+}
+
+.orange-square {
+  background-color: orange;
+  width: 100px;
+  height: 100px;
+}
+
+.solve-container {
+  text-align: center;
+}
+
 .solve-button {
-  color: rgb(61, 25, 25);
-  background-color: #1850c2;
-  justify-content: center;
+  color: 282c34;
+  background-color: white;
+  border-radius: 15px;
+  font-family: monospace;
+  font-size: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+
+}
+
+.solution {
+  margin: 30px;
+  text-align: center;
+  color: white;
+  font-family: monospace;
 }

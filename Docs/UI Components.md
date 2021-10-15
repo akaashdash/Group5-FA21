@@ -8,3 +8,15 @@ basic features:
  fun ideas:
   - a cute icon/picture
   - link to tutorial to solve
+
+
+Color Selector:
+* keep clicking to change the color 
+  * easier to store the state of the square
+  * harder for the user
+* color menu
+  * harder to implement 
+  * easier fo rthe user
+* dropper
+  * harder to implement
+  * easier for the user

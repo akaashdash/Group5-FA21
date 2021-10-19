@@ -14,18 +14,14 @@ code {
     monospace;
 }
 
-.square1 {
-  background-color: red;
-  width: 100px;
-  height: 100px
-}
-
 .render-cube {
   margin: 100px;
   justify-content: center;
 
 }
 
+
+/* The Squares' Formatting */
 .red-square {
   background-color: red;
   width: 100px;
@@ -61,6 +57,9 @@ code {
   width: 100px;
   height: 100px;
 }
+
+/*********************************/
+
 
 .solve-container {
   text-align: center;

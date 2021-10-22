@@ -14,7 +14,7 @@ code {
     monospace;
 }
 
-.render-cube {
+.solved-cube {
   margin: 100px;
   justify-content: center;
 
@@ -65,7 +65,7 @@ code {
   text-align: center;
 }
 
-.solve-button {
+.solve-button, .shuffle-button {
   color: 282c34;
   background-color: white;
   border-radius: 15px;

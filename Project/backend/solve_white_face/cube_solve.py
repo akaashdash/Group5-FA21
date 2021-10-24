@@ -22,9 +22,11 @@ def scramble(cube, num):
     tfm_list = []
     for x in range(num):
         tfm = random.randint(0, 11)
+        # Performs one of the twists from 0 to 11
         # tfm_mtx = tfm_mtx.dot(get_matrix(cube, move[tfm]))
         cube = transform_cube(cube, move[tfm])
         tfm_list.append(move[tfm])
+        # Keeps track of the moves that we have done in tfm list 
     return cube, tfm_list
     # return cube, tfm_mtx
 
@@ -48,7 +50,7 @@ def check_white_pieces(cube):
     if cube[3][2][2] != 35:
         missing_piece_list.append(35)
     return missing_piece_list
-
+# Shows if we do not have white solved
 
 def white_keep_position(cube, og_in_position_list):
     keep_positions = True
@@ -61,7 +63,7 @@ def white_keep_position(cube, og_in_position_list):
         if j not in in_position_list:
             keep_positions = False
     return keep_positions
-
+# Function to check if white is still in the right positions
 
 def check_white_pos2(cube, white_element1, white_element2):
     in_pos1 = False

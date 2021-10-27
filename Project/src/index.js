@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Cube from 'react-3d-cube'
 
-{/* Creates the Cube 
+/* Creates the Cube 
     - for each color, we'll have a different class name so that we can change the color of the square
     - use onClick to change the classname rather than changing the css value itself.
 
@@ -22,7 +22,7 @@ import Cube from 'react-3d-cube'
     3 = blue
     4 = red
     5 = yellow
-*/}
+*/
 
 /* var myArray = [1, 2, 3, 4]
 var color = new Array(4).fill(0)
@@ -36,10 +36,26 @@ for (var i = 0; i < myArray.length; i++) {
   }
 }
 console.log(color) */
-class MyCube extends Component {
+
+
+let colorArray = new Array(6).fill(0).map(() => new Array(3).fill(0).map(() => new Array(3).fill(0)))
+const solvedColorArray = new Array(6).fill(0).map(() => new Array(3).fill(0).map(() => new Array(3).fill(0)))
+
+function makeSquares(face, inputColors) {
+  const toReturn = new Array()
+  for(var row in inputColors[face]) {
+      for(var column in inputColors[face][row]) {
+        toReturn.push(<button className={inputColors[face][row][column]}></button>)
+      }
+  }
+  return toReturn
+}
+
+
+
+class SolvedCube extends Component {
   constructor() {
     super();
-
     this.state = {
       hidden: false
     }  
@@ -125,149 +141,78 @@ class MyCube extends Component {
           </div>
         </center>
       </div>
-      
-      {/* show scrambled cube */}
-      <div className = "scrambled-cube">
-        <center>
-          <div style={{width: 300, height: 300}}>
-            <Cube size={300} index="front">
-              <div style={{width: '300px', height: '300px'}}>  
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> {/* keep */} </button> 
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-              </div>
-              <div style={{backgroundColor: 'blue', width: '300px', height: '300px'}}> 
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square">  {/* keep */} </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-              </div>
-              <div style={{backgroundColor: 'yellow', width: '300px', height: '300px'}}> 
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> {/* keep */} </button> 
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-              </div>
-              <div style={{backgroundColor: 'green', width: '300px', height: '300px'}}> 
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> {/* keep */} </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-              </div> 
-              <div style={{backgroundColor: 'orange', width: '300px', height: '300px'}}> 
-                <button className="orange-square"> </button>
-                <button className="orange-square"> </button>
-                <button className="orange-square"> </button>
-                <button className="orange-square"> </button>
-                <button className="orange-square"> {/* keep */} </button>
-                <button className="orange-square"> </button>
-                <button className="orange-square"> </button>
-                <button className="orange-square"> </button>
-                <button className="orange-square"> </button>
-              </div>
-              <div style={{backgroundColor: 'red', width: '300px', height: '300px'}}> 
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> {/* keep */} </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-              </div>
-            </Cube>
-          </div>
-        </center>
-      </div>
       </div>
     )
   }
 }
 
-{/*Holds the solve button and the instructions to solve A cube*/}
+class ShuffledCube extends Component {
+  render() {
+    return (
+        <div className = "scrambled-cube">
+        <center>
+          <div style={{width: 300, height: 300}}>
+            <Cube size={300} index="front">
+              <div style={{width: '300px', height: '300px'}}>  
+                {makeSquares(0, colorArray)}
+              </div>
+              <div style={{width: '300px', height: '300px'}}> 
+                {makeSquares(5, colorArray)}
+              </div>
+              <div style={{width: '300px', height: '300px'}}> 
+                {makeSquares(1, colorArray)}
+              </div>
+              <div style={{width: '300px', height: '300px'}}> 
+                {makeSquares(4, colorArray)}
+              </div> 
+              <div style={{width: '300px', height: '300px'}}> 
+                {makeSquares(2, colorArray)}
+              </div>
+              <div style={{width: '300px', height: '300px'}}> 
+                {makeSquares(3, colorArray)}
+              </div>
+            </Cube>
+          </div>
+        </center>
+      </div>
+    );
+  }
+}
 
-class ShuffleButton extends Component {
+class Buttons extends Component {
 
-  shuffleClicked() {
-    console.log('shuffle button clicked');
-    // this is when we'll get data from backend about shuffled cube
-    const cubeArray = [
-      [[0, 1, 2],
-      [3, 4, 5],
-      [51, 52, 53]],
-    
-      [[9, 10, 11],
-      [12, 13, 14],
-      [42, 43, 44]],
-    
-      [[18, 19, 20],
-      [21, 22, 23],
-      [24, 25, 26]],
-    
-      [[29, 32, 35],
-      [28, 31, 34],
-      [27, 30, 33]],
-    
-      [[36, 37, 38],
-      [39, 40, 41],
-      [6, 7, 8]],
-    
-      [[45, 46, 47],
-      [48, 49, 50],
-      [15, 16, 17]]];
-    
-    console.log(cubeArray)
-    let colorArray = new Array(6).fill(0).map(() => new Array(3).fill(0).map(() => new Array(3).fill(0)))
-    colorArray = this.setColorArray(colorArray, cubeArray)
-    console.log(colorArray)
+  state = {
+    solved: true,
   }
 
+  // iterate through cubeArray to get the values then set the corresponding index in the colorArray to be the corresponding color
   setColorArray(myColorArray, myCubeArray) {
     for (let side = 0; side < 6; side++) {
       for (let row = 0; row < 3; row++) {
         for (let column = 0; column < 3; column++) {
-          console.log("id: " + myCubeArray[side][row][column])
-          if(myCubeArray[side][row][column] < 9) {
-            myColorArray[side][row][column] = "green-square"
-            console.log("color: " + myColorArray[side][row][column])
-          } else if(myCubeArray[side][row][column] < 18) {
-            myColorArray[side][row][column] = "blue-square"
-            console.log("color: " + myColorArray[side][row][column])
-          } else if(myCubeArray[side][row][column] < 27) {
-            myColorArray[side][row][column] = "yellow-square"
-            console.log("color: " + myColorArray[side][row][column])
-          } else if(myCubeArray[side][row][column] < 36) {
-            myColorArray[side][row][column] = "white-square"
-            console.log("color: " + myColorArray[side][row][column])
-          } else if(myCubeArray[side][row][column] < 45) {
-            myColorArray[side][row][column] = "orange-square"
-            console.log("color: " + myColorArray[side][row][column])
-          } else if(myCubeArray[side][row][column] < 54) {
-            myColorArray[side][row][column] = "red-square"
-            console.log("color: " + myColorArray[side][row][column])
+          let piece = myCubeArray[side][row][column]
+          let colorOfPiece = ""
+          //console.log("id: " + piece)
+          if(piece < 9) {
+            colorOfPiece = "green-square"
+            //console.log("color: " + colorOfPiece)
+          } else if(piece < 18) {
+            colorOfPiece = "blue-square"
+            //console.log("color: " + colorOfPiece)
+          } else if(piece < 27) {
+            colorOfPiece = "yellow-square"
+            //console.log("color: " + colorOfPiece)
+          } else if(piece < 36) {
+            colorOfPiece = "white-square"
+            //console.log("color: " + colorOfPiece)
+          } else if(piece < 45) {
+            colorOfPiece = "orange-square"
+            //console.log("color: " + colorOfPiece)
+          } else if(piece < 54) {
+            colorOfPiece = "red-square"
+            //console.log("color: " + colorOfPiece)
           }
+          myColorArray[side][row][column] = colorOfPiece
         }
       }
     }
@@ -277,14 +222,68 @@ class ShuffleButton extends Component {
   
   render() {  
 
+    let buttonClick = () => {
+      console.log('button clicked');
+      this.setState({
+        solved: !this.state.solved
+      });
+
+      // this is when we'll get data from backend about shuffled cube, but currently its sample data.
+      const cubeArray = [
+        [[0, 1, 2],
+        [3, 4, 5],
+        [51, 52, 53]],
+      
+        [[9, 10, 11],
+        [12, 13, 14],
+        [42, 43, 44]],
+      
+        [[18, 19, 20],
+        [21, 22, 23],
+        [24, 25, 26]],
+      
+        [[29, 32, 35],
+        [28, 31, 34],
+        [27, 30, 33]],
+      
+        [[36, 37, 38],
+        [39, 40, 41],
+        [6, 7, 8]],
+      
+        [[45, 46, 47],
+        [48, 49, 50],
+        [15, 16, 17]]];
+      
+      console.log(cubeArray)
+      colorArray = this.setColorArray(colorArray, cubeArray)
+      console.log(colorArray)
+    }
+
+    const showSolved = this.state.solved;
+
     return(
       <div className="solve-container">
-        <button className="shuffle-button" onClick={this.shuffleClicked()}> Shuffle Cube </button>
-      </div>
-        
+        {showSolved && <button className="shuffle-button" onClick={buttonClick}> Shuffle Cube </button>}
+        {showSolved && <SolvedCube/>}
+        {!showSolved && <ShuffledCube/>}
+        {!showSolved && <button className="solve-button" onClick={buttonClick}> Solve Cube </button> }
+        { 
+          showSolved && (
+          <div className="solution"> 
+            <h1>Solution:</h1>
+            <p> 1. Solve White Face</p>
+            <p> 2. Solve Two Rows</p>
+            <p> 4. Solve top face</p>
+            <p> 5. Finish Cube</p>
+          </div>)
+        }
+      </div>  
     );
   }
 }
+
+/*
+/*Holds the solve button and the instructions to solve A cube
 class SolveButton extends Component {
 
   state = {
@@ -292,7 +291,6 @@ class SolveButton extends Component {
   }
 
   render() {
-
     let solveClicked = e => {
       console.log('solve button clicked');
       this.setState({
@@ -320,14 +318,13 @@ class SolveButton extends Component {
     );
   }
 }
+*/
 
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
-    <ShuffleButton />
-    <MyCube />
-    <SolveButton />
+    <Buttons />
   </React.StrictMode>,
   document.getElementById('root')
 );

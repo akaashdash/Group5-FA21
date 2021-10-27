@@ -20,6 +20,12 @@ code {
 
 }
 
+.scrambled-cube {
+  margin: 100px;
+  justify-content: center;
+
+}
+
 
 /* The Squares' Formatting */
 .red-square {

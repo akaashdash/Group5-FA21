@@ -1,9 +1,5 @@
 import './App.css';
 
-
-function test() {
-}
-
 function App() {
   return (
     <div className="App">

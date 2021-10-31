@@ -233,7 +233,7 @@ class Buttons extends Component {
         this.setState({
           pressed: true
         });
-        axios.get('http://10.192.214.17:80/scrambled').then(response => {
+        axios.get('https://spheres-cubed.herokuapp.com/scrambled').then(response => {
           console.log("SUCCESS", response)
           colorArray = this.setColorArray(colorArray, response.data.cube)
           let sol = response.data.solution

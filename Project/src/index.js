@@ -228,20 +228,20 @@ class Buttons extends Component {
       console.log('button clicked');
 
       if (this.state.solved && !this.state.pressed) {
-        console.log("true - getting")
-        this.state.pressed = true
+        console.log("true - getting cube and solution")
+        this.setState({
+          pressed: true
+        });
         axios.get('http://10.192.214.17:80/scrambled').then(response => {
           console.log("SUCCESS", response)
           colorArray = this.setColorArray(colorArray, response.data.cube)
           let solution = response.data.solution
-          console.log(solution)
-          console.log(colorArray)
           this.setState({
             solved: !this.state.solved,
             pressed: false
           });
         }).catch(error => {
-          console.log(error)
+          console.log("ERROR", error)
           const cubeArray = [
             [[0, 1, 2],
             [3, 4, 5],
@@ -274,6 +274,9 @@ class Buttons extends Component {
           });
         });
       } else if (!this.state.pressed) {
+        this.setState({
+          pressed: true
+        });
         console.log("false - showing solved")
         this.setState({
           solved: !this.state.solved,
@@ -284,10 +287,12 @@ class Buttons extends Component {
     }
 
     const showSolved = this.state.solved;
+    const showLoading = this.state.pressed;
 
     return(
       <div className="solve-container">
-        {showSolved && <button className="shuffle-button" onClick={buttonClick}> Shuffle Cube </button>}
+        {showSolved && !showLoading && <button className="shuffle-button" onClick={buttonClick}> Shuffle Cube </button>}
+        {showSolved && showLoading && <button className="shuffle-button-loading"> Loading... </button>}
         {showSolved && <SolvedCube/>}
         {!showSolved && <ShuffledCube/>}
         {!showSolved && <button className="solve-button" onClick={buttonClick}> Solve Cube </button> }

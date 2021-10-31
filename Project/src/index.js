@@ -184,7 +184,8 @@ class Buttons extends Component {
 
   state = {
     solved: true,
-    pressed: false
+    pressed: false,
+    solution: ["1. Solve White Face", "2. Solve Two Rows", "4. Solve top face", "5. Finish Cube"]
   }
 
   // iterate through cubeArray to get the values then set the corresponding index in the colorArray to be the corresponding color
@@ -235,10 +236,11 @@ class Buttons extends Component {
         axios.get('http://10.192.214.17:80/scrambled').then(response => {
           console.log("SUCCESS", response)
           colorArray = this.setColorArray(colorArray, response.data.cube)
-          let solution = response.data.solution
+          let sol = response.data.solution
           this.setState({
             solved: !this.state.solved,
-            pressed: false
+            pressed: false,
+            solution: sol
           });
         }).catch(error => {
           console.log("ERROR", error)
@@ -270,7 +272,8 @@ class Buttons extends Component {
           console.log(colorArray)
           this.setState({
             solved: !this.state.solved,
-            pressed: false
+            pressed: false,
+            solution: ["1. Solve White Face", "2. Solve Two Rows", "4. Solve top face", "5. Finish Cube"]
           });
         });
       } else if (!this.state.pressed) {
@@ -288,6 +291,7 @@ class Buttons extends Component {
 
     const showSolved = this.state.solved;
     const showLoading = this.state.pressed;
+    const solution = this.state.solution
 
     return(
       <div className="solve-container">
@@ -300,10 +304,7 @@ class Buttons extends Component {
           showSolved && (
           <div className="solution"> 
             <h1>Solution:</h1>
-            <p> 1. Solve White Face</p>
-            <p> 2. Solve Two Rows</p>
-            <p> 4. Solve top face</p>
-            <p> 5. Finish Cube</p>
+            {solution.map(paragraph => <p>{paragraph}</p>)}
           </div>)
         }
       </div>  

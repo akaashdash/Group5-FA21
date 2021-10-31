@@ -5,7 +5,7 @@ import matplotlib
 from flask import Flask, request
 from flask_cors import CORS
 import json
-#import backend.solve_white_face.cube_solve as solver
+import backend.solve_white_face.cube_solve as solver
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 CORS(app)
@@ -18,19 +18,28 @@ def index():
 def favicon():
     return app.send_static_file('favicon.ico')
 
-@app.route('/validate', methods=['GET'])
+# Validate that an input cube is a possible state; This can be post because the only response we need is a status; UNUSED
+@app.route('/validate', methods=['POST'])
 def validate():
     # data validation point
     pass
 
-# Want to say put/post but doesn't exactly conform to that and isn't RESTful/standard practice
+# Solve an input cube; Want to say put/post but doesn't exactly conform to that and isn't RESTful/standard practice; UNUSED
 @app.route('/solve', methods=['GET'])
 def solve():
     cube = np.array(json.loads(request.args.get('cube', type=str)))
-    transformations = ""
-    # call to solver??
-    # solver. ?????
-    return json.dumps({ "cube" : "".join([line.replace(" ", "") for line in np.array2string(cube, separator=',').splitlines()]), "tfms" : transformations })
+    # "".join([line.replace(" ", "") for line in np.array2string(shuffled, separator=',').splitlines()]) - converts np ndarray to str
+    solution = solver.solve(cube)
+    return json.dumps({  "solution" : solution })
+
+# Get a randomly scrabled cube, the transformations that shuffled it, and a solution
+@app.route('/scrambled', methods=['GET'])
+def rand():
+    cube = np.arange(54).reshape(6, 3, 3)
+    shuffled, tfms = solver.scramble(cube, 15)
+    solution = []
+    for i in tfms[::-1]: solution.append(solver.rev_moves[i]) # for now we will simply reverse the tfms list for a solution
+    return json.dumps({ "cube" : shuffled.tolist(), "solution" : solution })
 
 @app.errorhandler(404)
 def not_found(e):

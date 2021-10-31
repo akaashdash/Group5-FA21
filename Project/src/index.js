@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Cube from 'react-3d-cube'
+import axios from 'axios'
 
 /* Creates the Cube 
     - for each color, we'll have a different class name so that we can change the color of the square
@@ -183,6 +184,7 @@ class Buttons extends Component {
 
   state = {
     solved: true,
+    pressed: false
   }
 
   // iterate through cubeArray to get the values then set the corresponding index in the colorArray to be the corresponding color
@@ -224,39 +226,61 @@ class Buttons extends Component {
 
     let buttonClick = () => {
       console.log('button clicked');
-      this.setState({
-        solved: !this.state.solved
-      });
 
-      // this is when we'll get data from backend about shuffled cube, but currently its sample data.
-      const cubeArray = [
-        [[0, 1, 2],
-        [3, 4, 5],
-        [51, 52, 53]],
-      
-        [[9, 10, 11],
-        [12, 13, 14],
-        [42, 43, 44]],
-      
-        [[18, 19, 20],
-        [21, 22, 23],
-        [24, 25, 26]],
-      
-        [[29, 32, 35],
-        [28, 31, 34],
-        [27, 30, 33]],
-      
-        [[36, 37, 38],
-        [39, 40, 41],
-        [6, 7, 8]],
-      
-        [[45, 46, 47],
-        [48, 49, 50],
-        [15, 16, 17]]];
-      
-      console.log(cubeArray)
-      colorArray = this.setColorArray(colorArray, cubeArray)
-      console.log(colorArray)
+      if (this.state.solved && !this.state.pressed) {
+        console.log("true - getting")
+        this.state.pressed = true
+        axios.get('http://10.192.214.17:80/scrambled').then(response => {
+          console.log("SUCCESS", response)
+          colorArray = this.setColorArray(colorArray, response.data.cube)
+          let solution = response.data.solution
+          console.log(solution)
+          console.log(colorArray)
+          this.setState({
+            solved: !this.state.solved,
+            pressed: false
+          });
+        }).catch(error => {
+          console.log(error)
+          const cubeArray = [
+            [[0, 1, 2],
+            [3, 4, 5],
+            [51, 52, 53]],
+          
+            [[9, 10, 11],
+            [12, 13, 14],
+            [42, 43, 44]],
+          
+            [[18, 19, 20],
+            [21, 22, 23],
+            [24, 25, 26]],
+          
+            [[29, 32, 35],
+            [28, 31, 34],
+            [27, 30, 33]],
+          
+            [[36, 37, 38],
+            [39, 40, 41],
+            [6, 7, 8]],
+          
+            [[45, 46, 47],
+            [48, 49, 50],
+            [15, 16, 17]]];
+          colorArray = this.setColorArray(colorArray, cubeArray)
+          console.log(colorArray)
+          this.setState({
+            solved: !this.state.solved,
+            pressed: false
+          });
+        });
+      } else if (!this.state.pressed) {
+        console.log("false - showing solved")
+        this.setState({
+          solved: !this.state.solved,
+          pressed: false
+        });
+      }
+
     }
 
     const showSolved = this.state.solved;

@@ -69,53 +69,42 @@ class SolvedCube extends Component {
       <div className = "solved-cube">
         <center>
           <div style={{width: 300, height: 300}}>
-            <Cube size={300} index="front">
+           {/*ok so according to the npm package, you cant have it show on a corner, but you can have it move on start!*/}
+            <Cube size={300} index="left">
               <div style={{width: '300px', height: '300px'}}>  
-                {/* The problem here is that the button isnt changing color when its inside the cube... --> it works fine outside the cube tho.*/}
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> {/* keep */} </button> 
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
-                <button className="white-square"> </button>
+                <button className="green-square"> </button>
+                <button className="green-square"> </button>
+                <button className="green-square"> </button>
+                <button className="green-square"> </button>
+                <button className="green-square"> {/* keep */} </button> 
+                <button className="green-square"> </button>
+                <button className="green-square"> </button>
+                <button className="green-square"> </button>
+                <button className="green-square"> </button>
               </div>
               <div style={{backgroundColor: 'blue', width: '300px', height: '300px'}}> 
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square">  {/* keep */} </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
-                <button className="blue-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square">  {/* keep */} </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
+                <button className="red-square"> </button>
               </div>
               <div style={{backgroundColor: 'yellow', width: '300px', height: '300px'}}> 
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> {/* keep */} </button> 
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
-                <button className="yellow-square"> </button>
+                <button className="blue-square"> </button>
+                <button className="blue-square"> </button>
+                <button className="blue-square"> </button>
+                <button className="blue-square"> </button>
+                <button className="blue-square"> {/* keep */} </button> 
+                <button className="blue-square"> </button>
+                <button className="blue-square"> </button>
+                <button className="blue-square"> </button>
+                <button className="blue-square"> </button>
               </div>
               <div style={{backgroundColor: 'green', width: '300px', height: '300px'}}> 
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> {/* keep */} </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-                <button className="green-square"> </button>
-              </div> 
-              <div style={{backgroundColor: 'orange', width: '300px', height: '300px'}}> 
                 <button className="orange-square"> </button>
                 <button className="orange-square"> </button>
                 <button className="orange-square"> </button>
@@ -125,17 +114,28 @@ class SolvedCube extends Component {
                 <button className="orange-square"> </button>
                 <button className="orange-square"> </button>
                 <button className="orange-square"> </button>
+              </div> 
+              <div style={{backgroundColor: 'orange', width: '300px', height: '300px'}}> 
+                <button className="yellow-square"> </button>
+                <button className="yellow-square"> </button>
+                <button className="yellow-square"> </button>
+                <button className="yellow-square"> </button>
+                <button className="yellow-square"> {/* keep */} </button>
+                <button className="yellow-square"> </button>
+                <button className="yellow-square"> </button>
+                <button className="yellow-square"> </button>
+                <button className="yellow-square"> </button>
               </div>
               <div style={{backgroundColor: 'red', width: '300px', height: '300px'}}> 
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> {/* keep */} </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
-                <button className="red-square"> </button>
+                <button className="white-square"> </button>
+                <button className="white-square"> </button>
+                <button className="white-square"> </button>
+                <button className="white-square"> </button>
+                <button className="white-square"> {/* keep */} </button>
+                <button className="white-square"> </button>
+                <button className="white-square"> </button>
+                <button className="white-square"> </button>
+                <button className="white-square"> </button>
               </div>
             </Cube>
           </div>
@@ -152,7 +152,7 @@ class ShuffledCube extends Component {
         <div className = "scrambled-cube">
         <center>
           <div style={{width: 300, height: 300}}>
-            <Cube size={300} index="front">
+            <Cube size={300} index="left">
               <div style={{width: '300px', height: '300px'}}>  
                 {makeSquares(0, colorArray)}
               </div>
@@ -183,6 +183,7 @@ class Buttons extends Component {
 
   state = {
     solved: true,
+    first: true,
   }
 
   // iterate through cubeArray to get the values then set the corresponding index in the colorArray to be the corresponding color
@@ -225,7 +226,8 @@ class Buttons extends Component {
     let buttonClick = () => {
       console.log('button clicked');
       this.setState({
-        solved: !this.state.solved
+        solved: !this.state.solved,
+        first: false
       });
 
       // this is when we'll get data from backend about shuffled cube, but currently its sample data.
@@ -260,16 +262,18 @@ class Buttons extends Component {
     }
 
     const showSolved = this.state.solved;
+    const firstSolve = this.state.first;
 
     return(
       <div className="solve-container">
         {showSolved && <button className="shuffle-button" onClick={buttonClick}> Shuffle Cube </button>}
+        {!showSolved && <button className="solve-button" onClick={buttonClick}> Solve Cube </button> }
         {showSolved && <SolvedCube/>}
         {!showSolved && <ShuffledCube/>}
-        {!showSolved && <button className="solve-button" onClick={buttonClick}> Solve Cube </button> }
         { 
-          showSolved && (
+          showSolved && !firstSolve && (
           <div className="solution"> 
+            {/* get this stuff from backend as well. */}
             <h1>Solution:</h1>
             <p> 1. Solve White Face</p>
             <p> 2. Solve Two Rows</p>

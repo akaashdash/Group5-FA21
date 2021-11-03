@@ -14,14 +14,6 @@
 
 .description {
   color: white;
+  margin: 40px;
   font-family: monospace;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
 }

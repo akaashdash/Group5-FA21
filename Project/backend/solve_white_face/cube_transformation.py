@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from cube_view.cube_2d import draw_cube
+from .cube_2d import draw_cube
 
 transform = {'R': np.eye(54), 'R\'': np.eye(54), 'L': np.eye(54), 'L\'': np.eye(54), 'U': np.eye(54),
              'U\'': np.eye(54), 'F': np.eye(54), 'F\'': np.eye(54),

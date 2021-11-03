@@ -2,8 +2,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 
-from cube_view.cube_2d import draw_cube
-from cube_controller.cube_transformation import transform_cube, get_matrix
+from .cube_2d import draw_cube
+from .cube_transformation import transform_cube, get_matrix
 
 solved_cube = np.arange(54).reshape(6, 3, 3)
 WHITE_LIST = [27, 28, 29, 30, 31, 32, 33, 34, 35]
@@ -503,6 +503,12 @@ def check_edges(cube):
 # def position_yellow_corners(cube):
 #
 # def position_yellow_edges(cube):
+
+
+# This is the function that the flask app will pass a shuffled/random/input cube into to be solved, solution tfms list of some kind needs to be returned
+def solve(cube):
+    solution = []
+    return solution
 
 
 def main():

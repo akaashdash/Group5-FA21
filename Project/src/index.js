@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Cube from 'react-3d-cube'
+import axios from 'axios'
 
 /* Creates the Cube 
     - for each color, we'll have a different class name so that we can change the color of the square
@@ -184,6 +185,8 @@ class Buttons extends Component {
   state = {
     solved: true,
     first: true,
+    pressed: false,
+    solution: ["1. Solve White Face", "2. Solve Two Rows", "4. Solve top face", "5. Finish Cube"]
   }
 
   // iterate through cubeArray to get the values then set the corresponding index in the colorArray to be the corresponding color
@@ -225,49 +228,84 @@ class Buttons extends Component {
 
     let buttonClick = () => {
       console.log('button clicked');
-      this.setState({
-        solved: !this.state.solved,
-        first: false
-      });
 
-      // this is when we'll get data from backend about shuffled cube, but currently its sample data.
-      const cubeArray = [
-        [[0, 1, 2],
-        [3, 4, 5],
-        [51, 52, 53]],
-      
-        [[9, 10, 11],
-        [12, 13, 14],
-        [42, 43, 44]],
-      
-        [[18, 19, 20],
-        [21, 22, 23],
-        [24, 25, 26]],
-      
-        [[29, 32, 35],
-        [28, 31, 34],
-        [27, 30, 33]],
-      
-        [[36, 37, 38],
-        [39, 40, 41],
-        [6, 7, 8]],
-      
-        [[45, 46, 47],
-        [48, 49, 50],
-        [15, 16, 17]]];
-      
-      console.log(cubeArray)
-      colorArray = this.setColorArray(colorArray, cubeArray)
-      console.log(colorArray)
+      if (this.state.solved && !this.state.pressed) {
+        console.log("true - getting cube and solution")
+        this.setState({
+          pressed: true
+        });
+        axios.get('https://spheres-cubed.herokuapp.com/scrambled').then(response => {
+          console.log("SUCCESS", response)
+          colorArray = this.setColorArray(colorArray, response.data.cube)
+          let sol = response.data.solution
+          this.setState({
+            solved: !this.state.solved,
+            pressed: false,
+            solution: sol,
+            first: false
+          });
+        }).catch(error => {
+          console.log("ERROR", error)
+          const cubeArray = [
+            [[0, 1, 2],
+            [3, 4, 5],
+            [51, 52, 53]],
+          
+            [[9, 10, 11],
+            [12, 13, 14],
+            [42, 43, 44]],
+          
+            [[18, 19, 20],
+            [21, 22, 23],
+            [24, 25, 26]],
+          
+            [[29, 32, 35],
+            [28, 31, 34],
+            [27, 30, 33]],
+          
+            [[36, 37, 38],
+            [39, 40, 41],
+            [6, 7, 8]],
+          
+            [[45, 46, 47],
+            [48, 49, 50],
+            [15, 16, 17]]];
+          colorArray = this.setColorArray(colorArray, cubeArray)
+          console.log(colorArray)
+          this.setState({
+            solved: !this.state.solved,
+            pressed: false,
+            solution: ["1. Solve White Face", "2. Solve Two Rows", "4. Solve top face", "5. Finish Cube"]
+          });
+        });
+      } else if (!this.state.pressed) {
+        this.setState({
+          pressed: true
+        });
+        console.log("false - showing solved")
+        this.setState({
+          solved: !this.state.solved,
+          pressed: false
+        });
+      }
+
     }
 
+    let solveClicked = () => {
+      this.setState({
+        solved: !this.state.solved
+      })
+    }
     const showSolved = this.state.solved;
-    const firstSolve = this.state.first;
+    const showLoading = this.state.pressed;
+    const solution = this.state.solution
+    const firstSolve = this.state.first
 
     return(
       <div className="solve-container">
-        {showSolved && <button className="shuffle-button" onClick={buttonClick}> Shuffle Cube </button>}
-        {!showSolved && <button className="solve-button" onClick={buttonClick}> Solve Cube </button> }
+        {showSolved && !showLoading && <button className="shuffle-button" onClick={buttonClick}> Shuffle Cube </button>}
+        {showSolved && showLoading && <button className="shuffle-button-loading"> Loading... </button>}
+        {!showSolved && !showLoading && <button className="solve-button" onClick={solveClicked}> Solve </button>}
         {showSolved && <SolvedCube/>}
         {!showSolved && <ShuffledCube/>}
         { 
@@ -275,10 +313,7 @@ class Buttons extends Component {
           <div className="solution"> 
             {/* get this stuff from backend as well. */}
             <h1>Solution:</h1>
-            <p> 1. Solve White Face</p>
-            <p> 2. Solve Two Rows</p>
-            <p> 4. Solve top face</p>
-            <p> 5. Finish Cube</p>
+            {solution.map(paragraph => <p>{paragraph}</p>)}
           </div>)
         }
       </div>  

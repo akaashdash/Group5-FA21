@@ -1,0 +1,38 @@
+
+.toggle-container {
+    /* background-color changes */
+    width: 45px;
+    height: 25px;
+    margin-left: 20px;
+    margin-top: 10px;
+    color: grey;
+    border-radius: 20px;    
+}
+
+.toggle-light-maroon {
+    background-color: rgb(83, 35, 35);
+}
+
+.toggle-dark-maroon {
+    background-color: rgb(214, 158, 158);
+}
+
+.light {
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background-color: black;
+    position: absolute;
+    left: 20px;
+}
+
+.dark {
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background-color: black;
+    position: absolute;
+    left: 45px;
+}

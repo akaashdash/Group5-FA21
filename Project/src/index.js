@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Cube from 'react-3d-cube'
 import axios from 'axios'
-
+import './Toggle.css'
 /* Creates the Cube 
     - for each color, we'll have a different class name so that we can change the color of the square
     - use onClick to change the classname rather than changing the css value itself.
@@ -71,7 +71,7 @@ class SolvedCube extends Component {
         <center>
           <div style={{width: 300, height: 300}}>
            {/*ok so according to the npm package, you cant have it show on a corner, but you can have it move on start!*/}
-            <Cube size={300} index="left">
+            <Cube size={300} index="bottom">
               <div style={{width: '300px', height: '300px'}}>  
                 <button className="green-square"> </button>
                 <button className="green-square"> </button>
@@ -153,7 +153,7 @@ class ShuffledCube extends Component {
         <div className = "scrambled-cube">
         <center>
           <div style={{width: 300, height: 300}}>
-            <Cube size={300} index="left">
+            <Cube size={300} index="bottom">
               <div style={{width: '300px', height: '300px'}}>  
                 {makeSquares(0, colorArray)}
               </div>
@@ -300,17 +300,20 @@ class Buttons extends Component {
     const showLoading = this.state.pressed;
     const solution = this.state.solution
     const firstSolve = this.state.first
+    
+    const darkMode = this.props.darkModeToggle;
+
 
     return(
-      <div className="solve-container">
-        {showSolved && !showLoading && <button className="shuffle-button" onClick={buttonClick}> Shuffle Cube </button>}
+      <div className={`solve-container ${darkMode ? "background-dark" : "background-light"}`}>
+        {showSolved && !showLoading && <button className={`shuffle-button ${darkMode ? "background-light" : "background-dark"} ${darkMode ? "text-light" : "text-dark"}`} onClick={buttonClick}> Shuffle Cube </button>}
         {showSolved && showLoading && <button className="shuffle-button-loading"> Loading... </button>}
-        {!showSolved && !showLoading && <button className="solve-button" onClick={solveClicked}> Solve </button>}
+        {!showSolved && !showLoading && <button className={`solve-button ${darkMode ? "background-light" : "background-dark"} ${darkMode ? "text-light" : "text-dark"}`} onClick={solveClicked}> Solve </button>}
         {showSolved && <SolvedCube/>}
         {!showSolved && <ShuffledCube/>}
         { 
           showSolved && !firstSolve && (
-          <div className="solution"> 
+          <div className={`solution ${darkMode ? "text-dark" : "text-light"}`}> 
             {/* get this stuff from backend as well. */}
             <h1>Solution:</h1>
             {solution.map(paragraph => <p>{paragraph}</p>)}
@@ -321,49 +324,58 @@ class Buttons extends Component {
   }
 }
 
-/*
-/*Holds the solve button and the instructions to solve A cube
-class SolveButton extends Component {
-
-  state = {
-    isHidden: false,
-  }
-
+class Credits extends Component {
   render() {
-    let solveClicked = e => {
-      console.log('solve button clicked');
-      this.setState({
-        isHidden: !this.state.isHidden
-      });
-    }
-    
-    const show = this.state.isHidden;
 
-    return(
-      <div className="solve-container">
-        <button className="solve-button" onClick={solveClicked}>{show? "Hide Solution" : "Solve"} </button>
-        { 
-          show && (
-          <div className="solution"> 
-            <h1>Solution:</h1>
-            <p> 1. Solve White Face</p>
-            <p> 2. Solve Two Rows</p>
-            <p> 4. Solve top face</p>
-            <p> 5. Finish Cube</p>
-          </div>)
-        }
+    const darkMode = this.props.darkModeToggle;
+    return (
+      <div className={`footer ${darkMode ? "text-dark" : "text-light"}`}>
+        <p> Created By: Spheres³ | Saloni • Aashi • Nikhila • Rishi • Akaash</p>
       </div>
-        
-    );
+    )
   }
 }
-*/
+
+class Toggle extends Component {
+  constructor() {
+      super();
+      this.state = {
+        dark: true
+      };
+    }
+    render() {
+  
+      let switchMode = () => {
+        this.setState({
+          dark: !this.state.dark
+        })
+        console.log("Mode swiched to " + this.state.dark)
+      }
+  
+      const darkMode = this.state.dark
+
+      return(
+          <div>
+              <div className={`toggle-container ${darkMode ? "toggle-light-maroon" : "toggle-dark-maroon"}`} onClick={switchMode}>
+                  <div className={darkMode? "dark" : "light"}>
+                      {darkMode ? "D" : "L"}
+                  </div>
+              </div>
+              
+              <div>
+                      <App darkModeToggle = {this.state.dark}/>
+                      <Buttons darkModeToggle = {this.state.dark}/>
+                      <Credits darkModeToggle = {this.state.dark}/>
+              </div>
+          </div>
+      );
+    }
+}
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-    <Buttons />
+    <Toggle />
   </React.StrictMode>,
   document.getElementById('root')
 );

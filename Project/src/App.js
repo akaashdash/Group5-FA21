@@ -1,18 +1,24 @@
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header>
-        <p className="App-header">
-          Rubiks Cube Solver
-        </p>
-        <p className="description">
-          Totally real description here
-        </p>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  render() {
+    const darkMode = this.props.darkModeToggle;
+
+    return (
+      <div className={`App ${darkMode ? "background-dark" : "background-light"}`}>
+        <header>
+          <p className={`App-header ${darkMode ? "text-dark" : "text-light"}`}>
+            Rubiks Cube Solver
+          </p>
+          <p className={`description ${darkMode ? "text-dark" : "text-light"}`}>
+            
+          </p>
+        </header>
+      </div>
+    );
+  }
 }
 
 

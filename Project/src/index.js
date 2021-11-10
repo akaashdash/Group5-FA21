@@ -72,7 +72,7 @@ class SolvedCube extends Component {
           <div style={{width: 300, height: 300}}>
            {/*ok so according to the npm package, you cant have it show on a corner, but you can have it move on start!*/}
             <Cube size={300} index="bottom">
-              <div style={{width: '300px', height: '300px'}}>  
+              <div style={{width: '300px', height: '300px', backgroundColor: 'black'}}>  
                 <button className="green-square"> </button>
                 <button className="green-square"> </button>
                 <button className="green-square"> </button>
@@ -83,7 +83,7 @@ class SolvedCube extends Component {
                 <button className="green-square"> </button>
                 <button className="green-square"> </button>
               </div>
-              <div style={{backgroundColor: 'blue', width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 <button className="red-square"> </button>
                 <button className="red-square"> </button>
                 <button className="red-square"> </button>
@@ -94,7 +94,7 @@ class SolvedCube extends Component {
                 <button className="red-square"> </button>
                 <button className="red-square"> </button>
               </div>
-              <div style={{backgroundColor: 'yellow', width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 <button className="blue-square"> </button>
                 <button className="blue-square"> </button>
                 <button className="blue-square"> </button>
@@ -105,7 +105,7 @@ class SolvedCube extends Component {
                 <button className="blue-square"> </button>
                 <button className="blue-square"> </button>
               </div>
-              <div style={{backgroundColor: 'green', width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 <button className="orange-square"> </button>
                 <button className="orange-square"> </button>
                 <button className="orange-square"> </button>
@@ -116,7 +116,7 @@ class SolvedCube extends Component {
                 <button className="orange-square"> </button>
                 <button className="orange-square"> </button>
               </div> 
-              <div style={{backgroundColor: 'orange', width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 <button className="yellow-square"> </button>
                 <button className="yellow-square"> </button>
                 <button className="yellow-square"> </button>
@@ -127,7 +127,7 @@ class SolvedCube extends Component {
                 <button className="yellow-square"> </button>
                 <button className="yellow-square"> </button>
               </div>
-              <div style={{backgroundColor: 'red', width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 <button className="white-square"> </button>
                 <button className="white-square"> </button>
                 <button className="white-square"> </button>
@@ -154,22 +154,22 @@ class ShuffledCube extends Component {
         <center>
           <div style={{width: 300, height: 300}}>
             <Cube size={300} index="bottom">
-              <div style={{width: '300px', height: '300px'}}>  
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}>  
                 {makeSquares(0, colorArray)}
               </div>
-              <div style={{width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 {makeSquares(5, colorArray)}
               </div>
-              <div style={{width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 {makeSquares(1, colorArray)}
               </div>
-              <div style={{width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 {makeSquares(4, colorArray)}
               </div> 
-              <div style={{width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 {makeSquares(2, colorArray)}
               </div>
-              <div style={{width: '300px', height: '300px'}}> 
+              <div style={{backgroundColor: 'black', width: '300px', height: '300px'}}> 
                 {makeSquares(3, colorArray)}
               </div>
             </Cube>
@@ -350,8 +350,15 @@ class Toggle extends Component {
           dark: !this.state.dark
         })
         console.log("Mode swiched to " + this.state.dark)
+
+        if (this.state.dark) {
+          document.body.style.backgroundColor = "#dadada";
+        } else {
+          document.body.style.backgroundColor = "#282c34";
+        }
       }
   
+      
       const darkMode = this.state.dark
 
       return(

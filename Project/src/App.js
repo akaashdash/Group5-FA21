@@ -13,7 +13,7 @@ class App extends Component {
             Rubiks Cube Solver
           </p>
           <p className={`description ${darkMode ? "text-dark" : "text-light"}`}>
-            
+            description here
           </p>
         </header>
       </div>

@@ -20,3 +20,7 @@ https://blog.miguelgrinberg.com/post/how-to-create-a-react--flask-project
 https://towardsdatascience.com/build-deploy-a-react-flask-app-47a89a5d17d9  
 https://towardsdatascience.com/reactjs-python-flask-on-heroku-2a308272886a  
 https://medium.com/swlh/how-to-deploy-a-react-python-flask-project-on-heroku-edb99309311  
+
+# Cube Validation
+
+https://math.stackexchange.com/questions/127577/how-to-tell-if-a-rubiks-cube-is-solvable  

@@ -297,7 +297,7 @@ def position_white_pieces1(cube, white_element):
     stop = False
 
     if check_white_pos1(cube, white_element):
-        return(cube)
+        return cube, ""
 
     for i in range(0, 12):
         if stop:
@@ -307,7 +307,7 @@ def position_white_pieces1(cube, white_element):
             correct_tfm_string = move[i]
             break
     if len(correct_tfm_string) != 0:
-        return transform_cube(cube, correct_tfm_string)
+        return transform_cube(cube, correct_tfm_string), correct_tfm_string
     for i in range(0, 12):
         if stop:
             break
@@ -321,7 +321,7 @@ def position_white_pieces1(cube, white_element):
                 correct_tfm_string = tfm_string
                 break
     if len(correct_tfm_string) != 0:
-        return transform_cube(cube, correct_tfm_string)
+        return transform_cube(cube, correct_tfm_string), correct_tfm_string
 
     for i in range(0, 12):
         if stop:
@@ -339,7 +339,7 @@ def position_white_pieces1(cube, white_element):
                     correct_tfm_string = tfm_string
                     break
     if len(correct_tfm_string) != 0:
-        return transform_cube(cube, correct_tfm_string)
+        return transform_cube(cube, correct_tfm_string), correct_tfm_string
 
     for i in range(0, 12):
         if stop:
@@ -361,7 +361,7 @@ def position_white_pieces1(cube, white_element):
                         break
 
     if len(correct_tfm_string) != 0:
-        return transform_cube(cube, correct_tfm_string)
+        return transform_cube(cube, correct_tfm_string), correct_tfm_string
 
     for i in range(0, 12):
         if stop:
@@ -386,7 +386,7 @@ def position_white_pieces1(cube, white_element):
                             break
 
     if len(correct_tfm_string) != 0:
-        return transform_cube(cube, correct_tfm_string)
+        return transform_cube(cube, correct_tfm_string), correct_tfm_string
 
     for i in range(0, 12):
         if stop:
@@ -415,7 +415,7 @@ def position_white_pieces1(cube, white_element):
                                 break
 
     if len(correct_tfm_string) != 0:
-        return transform_cube(cube, correct_tfm_string)
+        return transform_cube(cube, correct_tfm_string), correct_tfm_string
 
     for i in range(0, 12):
         if stop:
@@ -447,7 +447,7 @@ def position_white_pieces1(cube, white_element):
                                     correct_tfm_string = tfm_string
                                     break
     if len(correct_tfm_string) != 0:
-        return transform_cube(cube, correct_tfm_string)
+        return transform_cube(cube, correct_tfm_string), correct_tfm_string
 
 
 # solve second layer
@@ -507,31 +507,25 @@ def check_edges(cube):
 
 # This is the function that the flask app will pass a shuffled/random/input cube into to be solved, solution tfms list of some kind needs to be returned
 def solve(cube):
-    solution = []
-    return solution
+    cube_state = cube.copy()
+    steps = [28, 30, 34, 32, 27, 33, 29, 35]
+    solutions = []
+    for i in steps:
+        cube_state, tfms = position_white_pieces1(cube_state, i)
+        solutions.extend(tfms.split(','))
+
+    return cube_state, solutions
 
 
 def main():
     cube = np.arange(54).reshape(6, 3, 3)
-    # cube_state, tfm_list = scramble(cube, 15)
-    # # new_cube = transform_cube(cube, "R,L,U")
-    # # for i in tfm_list[::-1]:
-    # #     new_cube = transform_cube(new_cube, rev_moves[i])
-    # cube_state = position_white_pieces1(cube_state, 28)
-    # cube_state = position_white_pieces1(cube_state, 30)
-    # cube_state = position_white_pieces1(cube_state, 34)
-    # cube_state = position_white_pieces1(cube_state, 32)
-    # cube_state = position_white_pieces1(cube_state, 27)
-    # cube_state = position_white_pieces1(cube_state, 33)
-    # cube_state = position_white_pieces1(cube_state, 29)
-    # cube_state = position_white_pieces1(cube_state, 35)
-    # # cube_state = position_white_pieces2(cube_state, 27, 33)
-    # # cube_state = position_white_pieces2(cube_state, 29, 35)
+    cube_state, tfm_list = scramble(cube, 15)
 
-    draw_cube(cube, 0.26, 0.5)
-    print(cube)
+    final, steps = solve(cube_state)
+
+    draw_cube(final, 0.26, 0.5)
+    print(steps)
     plt.show()
-
 
 if __name__ == '__main__':
     main()

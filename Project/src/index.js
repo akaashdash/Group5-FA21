@@ -7,7 +7,8 @@ import Cube from 'react-3d-cube'
 import axios from 'axios'
 import './Toggle.css'
 
-let defaultArray = [
+
+const defaultArray = [
   [[0, 1, 2],
   [3, 4, 5],
   [6, 7, 8]],
@@ -30,14 +31,15 @@ let defaultArray = [
 
   [[45, 46, 47],
   [48, 49, 50],
-  [51, 52, 53]]]
+  [51, 52, 53]]
+]
 let scrambledArray = new Array(6).fill(0).map(() => new Array(3).fill(0).map(() => new Array(3).fill(0)))
 let solvedArray = new Array(6).fill(0).map(() => new Array(3).fill(0).map(() => new Array(3).fill(0)))
 
 function makeSquares(face, inputColors) {
-  const toReturn = new Array()
-  for(var row in inputColors[face]) {
-      for(var column in inputColors[face][row]) {
+  const toReturn = []
+  for (var row in inputColors[face]) {
+      for (var column in inputColors[face][row]) {
         toReturn.push(<button className={inputColors[face][row][column]}></button>)
       }
   }
@@ -50,17 +52,17 @@ function setColorArray(myColorArray, myCubeArray) {
       for (let column = 0; column < 3; column++) {
         let piece = myCubeArray[side][row][column]
         let colorOfPiece = ""
-        if(piece < 9) {
+        if (piece < 9) {
           colorOfPiece = "green-square"
-        } else if(piece < 18) {
+        } else if (piece < 18) {
           colorOfPiece = "blue-square"
-        } else if(piece < 27) {
+        } else if (piece < 27) {
           colorOfPiece = "yellow-square"
-        } else if(piece < 36) {
+        } else if (piece < 36) {
           colorOfPiece = "white-square"
-        } else if(piece < 45) {
+        } else if (piece < 45) {
           colorOfPiece = "orange-square"
-        } else if(piece < 54) {
+        } else if (piece < 54) {
           colorOfPiece = "red-square"
         }
         myColorArray[side][row][column] = colorOfPiece
@@ -70,20 +72,11 @@ function setColorArray(myColorArray, myCubeArray) {
   return myColorArray
 }
 
-scrambledArray = setColorArray(scrambledArray, defaultArray)
-solvedArray = setColorArray(solvedArray, defaultArray)
 
 class SolvedCube extends Component {
-  constructor() {
-    super();
-    this.state = {
-      hidden: false
-    }  
-  }
-
   render() {
     return (
-        <div className = "solved-cube">
+        <div className="solved-cube">
         <center>
           <div style={{width: 300, height: 300}}>
             <Cube size={300} index="bottom">
@@ -109,7 +102,7 @@ class SolvedCube extends Component {
           </div>
         </center>
       </div>
-    );
+    )
   }
 }
 
@@ -142,76 +135,62 @@ class ShuffledCube extends Component {
           </div>
         </center>
       </div>
-    );
+    )
   }
 }
 
 class Buttons extends Component {
-
   state = {
     solved: true,
-    first: true,
     pressed: false,
-    solution: ["1. Solve White Face", "2. Solve Two Rows", "4. Solve top face", "5. Finish Cube"]
+    solution: ["1. Solve White Face", "2. Solve Two Rows", "4. Solve top face", "5. Finish Cube"],
+    first: true
   }
 
-  
-  render() {  
-
+  render() {
     let buttonClick = () => {
-      console.log('button clicked');
-
       if (this.state.solved && !this.state.pressed) {
-        console.log("true - getting cube and solution")
         this.setState({
           pressed: true
-        });
-        axios.get('http://10.192.137.66/scrambled').then(response => {
-          console.log("SUCCESS", response)
-          scrambledArray = setColorArray(scrambledArray, response.data.scrambled)
-          solvedArray = setColorArray(solvedArray, response.data.solved)
-          this.setState({
-            solution: response.data.solution
-          });
-          axios.get('http://10.192.137.66/solve', { params: { "cube" : JSON.stringify(response.data.scrambled) }}).then(response2 => {
-            console.log("SUCCESS", response2)
-            solvedArray = setColorArray(solvedArray, response2.data.solved)
+        })
+        axios.get('http://10.192.137.66/scrambled').then(scrambleResponse => {
+          console.log("SUCCESS - Scramble", scrambleResponse)
+          scrambledArray = setColorArray(scrambledArray, scrambleResponse.data.scrambled)
+          axios.get('http://10.192.137.66/solve', { params: { "cube" : JSON.stringify(scrambleResponse.data.scrambled) }}).then(solveResponse => {
+            console.log("SUCCESS - Solve", solveResponse)
+            solvedArray = setColorArray(solvedArray, solveResponse.data.solved)
             this.setState({
               solved: !this.state.solved,
               pressed: false,
-              solution: response2.data.solution,
+              solution: solveResponse.data.solution,
               first: false
-            });
-            
-          }).catch(error2 => {
-            console.log("ERROR2", error2)
+            })
+          }).catch(solveError => {
+            console.log("ERROR - Solve", solveError)
+            solvedArray = setColorArray(solvedArray, scrambleResponse.data.solved)
             this.setState({
               solved: !this.state.solved,
               pressed: false,
+              solution: scrambleResponse.data.solution,
               first: false
-            });
-          });
-        }).catch(error => {
-          console.log("ERROR", error)
+            })
+          })
+        }).catch(scrambleError => {
+          console.log("ERROR - Scramble", scrambleError)
           scrambledArray = setColorArray(scrambledArray, defaultArray)
           solvedArray = setColorArray(solvedArray, defaultArray)
           this.setState({
             solved: !this.state.solved,
             pressed: false,
-            solution: ["1. Solve White Face", "2. Solve Two Rows", "4. Solve top face", "5. Finish Cube"]
-          });
-        });
+            solution: ["1. Solve White Face", "2. Solve Two Rows", "4. Solve top face", "5. Finish Cube"],
+            first: false
+          })
+        })
       } else if (!this.state.pressed) {
         this.setState({
-          pressed: true
-        });
-        console.log("false - showing solved")
-        this.setState({
-          solved: !this.state.solved,
-          pressed: false
-        });
+          solved: !this.state.solved
+        })
       }
-
     }
 
     let solveClicked = () => {
@@ -219,14 +198,12 @@ class Buttons extends Component {
         solved: !this.state.solved
       })
     }
-    const showSolved = this.state.solved;
-    const showLoading = this.state.pressed;
+
+    const showSolved = this.state.solved
+    const showLoading = this.state.pressed
     const solution = this.state.solution
     const firstSolve = this.state.first
-    
-    const darkMode = this.props.darkModeToggle;
-
-
+    const darkMode = this.props.darkModeToggle
     return(
       <div className={`solve-container ${darkMode ? "background-dark" : "background-light"}`}>
         {showSolved && !showLoading && <button className={`shuffle-button ${darkMode ? "background-light" : "background-dark"} ${darkMode ? "text-light" : "text-dark"}`} onClick={buttonClick}> Shuffle Cube </button>}
@@ -236,21 +213,19 @@ class Buttons extends Component {
         {!showSolved && <ShuffledCube/>}
         { 
           showSolved && !firstSolve && (
-          <div className={`solution ${darkMode ? "text-dark" : "text-light"}`}> 
-            {/* get this stuff from backend as well. */}
+          <div className={`solution ${darkMode ? "text-dark" : "text-light"}`}>
             <h1>Solution:</h1>
             {solution.join(", ")}
           </div>)
         }
       </div>  
-    );
+    )
   }
 }
 
 class Credits extends Component {
   render() {
-
-    const darkMode = this.props.darkModeToggle;
+    const darkMode = this.props.darkModeToggle
     return (
       <div className={`footer ${darkMode ? "text-dark" : "text-light"}`}>
         <p> Created By: Spheres³ | Saloni • Aashi • Nikhila • Rishi • Akaash</p>
@@ -260,57 +235,52 @@ class Credits extends Component {
 }
 
 class Toggle extends Component {
-  constructor() {
-      super();
-      this.state = {
-        dark: true
-      };
-    }
-    render() {
-  
-      let switchMode = () => {
-        this.setState({
-          dark: !this.state.dark
-        })
-        console.log("Mode swiched to " + this.state.dark)
+  state = {
+    dark: true
+  }
 
-        if (this.state.dark) {
-          document.body.style.backgroundColor = "#dadada";
-        } else {
-          document.body.style.backgroundColor = "#282c34";
-        }
+  render() {
+    let switchMode = () => {
+      this.setState({
+        dark: !this.state.dark
+      })
+      if (this.state.dark) {
+        document.body.style.backgroundColor = "#dadada"
+      } else {
+        document.body.style.backgroundColor = "#282c34"
       }
-  
-      
-      const darkMode = this.state.dark
-
-      return(
-          <div>
-              <div className={`toggle-container ${darkMode ? "toggle-light-maroon" : "toggle-dark-maroon"}`} onClick={switchMode}>
-                  <div className={darkMode? "dark" : "light"}>
-                      {darkMode ? "D" : "L"}
-                  </div>
-              </div>
-              
-              <div>
-                      <App darkModeToggle = {this.state.dark}/>
-                      <Buttons darkModeToggle = {this.state.dark}/>
-                      <Credits darkModeToggle = {this.state.dark}/>
-              </div>
-          </div>
-      );
     }
+
+    const darkMode = this.state.dark
+    return(
+        <div>
+            <div className={`toggle-container ${darkMode ? "toggle-light-maroon" : "toggle-dark-maroon"}`} onClick={switchMode}>
+                <div className={darkMode? "dark" : "light"}>
+                    {darkMode ? "D" : "L"}
+                </div>
+            </div>
+            <div>
+                    <App darkModeToggle = {this.state.dark}/>
+                    <Buttons darkModeToggle = {this.state.dark}/>
+                    <Credits darkModeToggle = {this.state.dark}/>
+            </div>
+        </div>
+    )
+  }
 }
 
+
+scrambledArray = setColorArray(scrambledArray, defaultArray)
+solvedArray = setColorArray(solvedArray, defaultArray)
 
 ReactDOM.render(
   <React.StrictMode>
     <Toggle />
   </React.StrictMode>,
   document.getElementById('root')
-);
+)
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+reportWebVitals()

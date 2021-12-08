@@ -24,28 +24,19 @@ def validate():
     cube = np.array(json.loads(request.form["cube"]))
     pass
 
-# Solve an input cube; Want to say put/post but doesn't exactly conform to that and isn't RESTful/standard practice; UNUSED
-@app.route('/solvePassed', methods=['GET'])
+# Solve an input cube; Want to say put/post but doesn't exactly conform to that and isn't RESTful/standard practice
+@app.route('/solve', methods=['GET'])
 def solvePassed():
     cube = np.array(json.loads(request.args.get('cube', type=str)))
     # "".join([line.replace(" ", "") for line in np.array2string(shuffled, separator=',').splitlines()]) - converts np ndarray to str
     solved, steps = solver.solve(cube)
     return json.dumps({  "scrambled" : cube.tolist(), "solved" : solved.tolist(), "solution" : steps })
 
-# Get a randomly scrabled cube, and the algorithmic solution (limited to algorithm)
-# Should not necessarily exist because the proper flow would be call /scrambled -> pass scrambled cube to /solvePassed; only exists for simplicity
-@app.route('/solve', methods=['GET'])
-def solve():
-    cube = np.arange(54).reshape(6, 3, 3)
-    shuffled, tfms = solver.scramble(cube, 15)
-    solved, steps = solver.solve(shuffled)
-    return json.dumps({ "scrambled": shuffled.tolist(), "solved" : solved, "solution" : steps })
-
 # Get a randomly scrabled cube, the transformations that shuffled it, and a solution
 @app.route('/scrambled', methods=['GET'])
 def rand():
     cube = np.arange(54).reshape(6, 3, 3)
-    shuffled, tfms = solver.scramble(cube, 15)
+    shuffled, tfms = solver.scramble(cube, 5)
     solution = []
     for i in tfms[::-1]: solution.append(solver.rev_moves[i]) # for now we will simply reverse the tfms list for a solution
     return json.dumps({ "scrambled" : shuffled.tolist(), "solved" : cube.tolist(), "solution" : solution })

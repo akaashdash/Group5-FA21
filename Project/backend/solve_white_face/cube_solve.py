@@ -512,7 +512,8 @@ def solve(cube):
     solutions = []
     for i in steps:
         cube_state, tfms = position_white_pieces1(cube_state, i)
-        solutions.extend(tfms.split(','))
+        tfms = list(filter(lambda x: len(x) > 0, tfms.split(',')))
+        solutions.extend(tfms)
 
     return cube_state, solutions
 

@@ -236,7 +236,7 @@ class Buttons extends Component {
         });
         axios.get('https://spheres-cubed.herokuapp.com/scrambled').then(response => {
           console.log("SUCCESS", response)
-          colorArray = this.setColorArray(colorArray, response.data.cube)
+          colorArray = this.setColorArray(colorArray, response.data.scrambled)
           let sol = response.data.solution
           this.setState({
             solved: !this.state.solved,

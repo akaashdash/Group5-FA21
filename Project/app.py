@@ -5,7 +5,7 @@ import matplotlib
 from flask import Flask, request
 from flask_cors import CORS
 import json
-import backend.solve_white_face.cube_solve as solver
+import backend.cube_solve as solver
 
 app = Flask(__name__, static_folder='./build', static_url_path='/')
 CORS(app)
